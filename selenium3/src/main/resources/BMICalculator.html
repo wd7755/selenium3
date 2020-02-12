@@ -1,0 +1,62 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<title>Form</title>
+<script type="text/javascript" async="" src="jquery-1.9.1.min.js"></script>
+<link href="bootstrap\css\bootstrap.min.css" rel="stylesheet" />
+<script src="bootstrap\js\bootstrap.min.js"></script>
+<script type="text/javascript">
+function cal()
+{	
+    var weightKg = document.getElementById('weightKg').value;
+	var heightCMS = document.getElementById('heightCMS').value;
+	
+	heightCMS = heightCMS/100;
+	var bmi = weightKg/(heightCMS * heightCMS);	
+	bmi = bmi.toPrecision(3)
+
+	var bc = '';	
+	bmi = Number(bmi);
+
+	if(bmi < 18.5)
+		bc = 'Underweight';
+	else if(bmi >=18.5 && bmi < 24.9)
+		bc = 'Normal';
+	else if(bmi >=25 && bmi < 29.9)
+		bc = 'Overweight';
+	else if(bmi >=30)
+		bc = 'Obesity';			
+	document.getElementById('bmi').value = bmi;
+	document.getElementById('bmi').innerText = bmi;
+	document.getElementById('bmi_category').value = bc;
+	document.getElementById('bmi_category').innerText = bc;
+}
+</script>
+</head>
+<body>
+<h3>simple login form</h3>
+
+<div class="control-group">
+<label class="control-label" for="heightCMS">身高</label>
+<div class="controls">
+<input type="number" name="heightCMS" id='heightCMS'>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" for="weightKg">体重</label>
+<div class="controls">
+<input type="number"  name="weightKg" id='weightKg'>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label" name="bmi" id='bmi'>BMI</label>
+<label class="control-label" name="bmi_category" id='bmi_category'>类别</label>
+</div>
+
+
+<input type="button" class="btn" id='Calculate' onclick="cal()" value='计算'>
+
+</body>
+</html>
