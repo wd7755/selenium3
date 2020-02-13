@@ -303,21 +303,23 @@ public class Util {
 	 * 获取屏幕快照
 	 * 
 	 * @param driver   WebDriver
-	 * @param savePath 截图文件名
+	 * @param fileName 截图文件名，不包括文件路径
 	 * @return 截图保存路径
 	 */
-	public static void takeScreenshot(String savePath) {		
-		boolean isSucceed = false;
+	public static void takeScreenshot(String fileName) {			
 		try {
-			File screenShotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);			
-			FileUtils.copyFile(screenShotFile, new File(savePath));
-			logger.info("take screenshot [" + savePath + "] success!");
-			isSucceed = true;
+			File screenShotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);	
+			File file = new File(capturePath);
+			if  (!file.exists()  && !file.isDirectory())      
+			{       			  
+			    file.mkdir();    
+			} 
+			FileUtils.copyFile(screenShotFile, new File(capturePath + fileName));
+			logger.info("take screenshot [" + fileName + "] success!");		
 		} catch (Exception e) {
 			logger.error(e.getLocalizedMessage());
 			e.printStackTrace();
-		}
-		operationCheck("takeScreenshot", isSucceed);
+		}	
 	}
 
 	// 页面元素截图

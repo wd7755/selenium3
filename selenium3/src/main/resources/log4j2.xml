@@ -15,7 +15,7 @@
         <RollingRandomAccessFile name="RollingRandomAccessFile" fileName="${LOG_HOME}/${FILE_NAME}.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd HH-mm}-%i.log">
         	<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %l - %msg%n"/>
         	<Policies>
-        		<TimeBasedTriggeringPolicy interval="1440"/>
+        		<TimeBasedTriggeringPolicy interval="1"/>
         		<SizeBasedTriggeringPolicy size="10 MB"/>
         	</Policies>
         	<DefaultRolloverStrategy max="20"/>
