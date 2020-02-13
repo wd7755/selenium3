@@ -8,13 +8,13 @@ import com.agileach.selenium3.ExcelProcess;
 import com.agileach.selenium3.OperateDB;
 import com.agileach.selenium3.TestcaseBase;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
 
 public class BmiCalculatorTest extends TestcaseBase{
-	private String filePath = System.getProperty("user.dir");
-	private String url = "file:///" + filePath + "/src/main/resources/BmiCalculator.html";
-	//String fileName = filePath + "/src/test/resources/" + this.getClass().getSimpleName() + ".xlsx";	
+	private String userDir = System.getProperty("user.dir");
+	private String url = "file:///" + userDir + "/src/main/resources/BmiCalculator.html";
 	
 	@DataProvider
 	public Iterator<String[]> testDataByDB() throws SQLException {
@@ -37,8 +37,9 @@ public class BmiCalculatorTest extends TestcaseBase{
 
 	@DataProvider
 	protected Iterator<String[]> testDataByExcel() throws IOException  {	
-		String fileName = excelPath + this.getClass().getSimpleName() + ".xlsx";	
-		return ExcelProcess.proessExcel(fileName, 0);
+		String fileName = this.getClass().getSimpleName() + ".xlsx";	
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream(fileName);
+		return ExcelProcess.proessExcel(is, 0);
 	}	
 	
 	@Test(dataProvider = "testDataByExcel")

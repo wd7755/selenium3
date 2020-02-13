@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 public class TestcaseBase {
 	protected static WebDriver driver;
 	protected static Logger logger = LoggerFactory.getLogger(TestcaseBase.class);
-	protected String excelPath;
 	private static EventFiringWebDriver eventDriver;	
 	
 	public static WebDriver getDriver(String browser) {
@@ -65,8 +64,7 @@ public class TestcaseBase {
 		try {
 			InputStream fis = this.getClass().getClassLoader().getResourceAsStream("config.properties");	
 			prop.load(fis);
-			String browser = prop.getProperty("Browser");	
-			excelPath = prop.getProperty("TestDataPath");		
+			String browser = prop.getProperty("Browser");			
 			driver = getDriver(browser);				
 			logger.info("Start {0}，get webdriver...",browser);
 			Util.setWebDriver(driver);

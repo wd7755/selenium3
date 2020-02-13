@@ -1,24 +1,18 @@
 package com.agileach.selenium3;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelProcess {
-	public static Iterator<String[]> proessExcel(String filePath, int sheetId) throws IOException {			
-		File file = new File(System.getProperty("user.dir") + filePath);
-		InputStream is = new FileInputStream(file);
+	public static Iterator<String[]> proessExcel(InputStream is, int sheetId) throws IOException {	
 		XSSFWorkbook workbook = new XSSFWorkbook(is);
 		// 获得工作表
 		XSSFSheet sheet = workbook.getSheetAt(sheetId);
