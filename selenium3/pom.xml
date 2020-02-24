@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.agileach</groupId>
 	<artifactId>selenium3</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>selenium3-testng-demo</name>
 
 	<properties>

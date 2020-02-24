@@ -1,7 +1,5 @@
 package com.agileach.selenium3;
 
-import java.io.File;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -18,7 +16,7 @@ public class MyWebDriverListener implements WebDriverEventListener{
         String dateTime = Util.getFormatedTime("yyyy_MM_dd_HH_mm_ss");     
 		StringBuffer sb = new StringBuffer();
 		String captureName = sb.append(dateTime).append(".png").toString();        
-        Util.takeScreenshot(captureName);      
+        Util.takeScreenshot(driver, captureName);      
         logger.error("发生异常,原因是: " + throwable.getMessage() + ". 截图保存在: "+captureName);
     }  
 

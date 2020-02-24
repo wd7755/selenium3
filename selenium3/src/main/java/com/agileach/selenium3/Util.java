@@ -49,7 +49,7 @@ public class Util {
 			String dateTime = getFormatedTime("yyyy-MM-dd HH:mm:ss:SSS");
 			StringBuffer sb = new StringBuffer();
 			String captureName = sb.append(capturePath).append(methodName).append(dateTime).append(".png").toString();
-			takeScreenshot(captureName);
+			takeScreenshot(driver, captureName);
 			logger.error("method [" + methodName + "]运行失败，请查看截图快照!" + captureName);
 		}
 	}
@@ -358,7 +358,7 @@ public class Util {
 	 * @param fileName 截图文件名，不包括文件路径
 	 * @return 截图保存路径
 	 */
-	public static void takeScreenshot(String fileName) {			
+	public static void takeScreenshot(WebDriver driver, String fileName) {			
 		try {
 			File screenShotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);	
 			File file = new File(capturePath);

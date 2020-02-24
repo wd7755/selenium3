@@ -25,7 +25,7 @@ public class TestcaseBase {
 	protected static Logger logger = LoggerFactory.getLogger(TestcaseBase.class);
 	private static EventFiringWebDriver eventDriver;	
 	
-	public static WebDriver getDriver(String browser) {
+	public static WebDriver getDriver(String browser) throws MyException{
 		if (driver == null) {
 			synchronized (WebDriver.class) {
 				try {				
@@ -79,6 +79,7 @@ public class TestcaseBase {
 			        eventDriver.register(new MyWebDriverListener());	
 				} catch (Exception e) {
 					e.printStackTrace();
+					throw new MyException(e, eventDriver);
 				}
 			}			
 			eventDriver.manage().window().maximize();
@@ -88,7 +89,7 @@ public class TestcaseBase {
 	}
 
 	@BeforeTest
-	public void setUp() {		
+	public void setUp() throws MyException{		
 		// 数据流的形式读取配置文件
 		Properties prop = new Properties();
 		try {
@@ -100,6 +101,7 @@ public class TestcaseBase {
 			Util.setWebDriver(driver);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new MyException(e, eventDriver);			
 		}		
 	}
 
