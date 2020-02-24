@@ -3,10 +3,12 @@ package com.agileach.selenium3.testcases;
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
 import org.testng.annotations.*;
-import com.agileach.selenium3.BmiCalculatorPage;
+
 import com.agileach.selenium3.ExcelProcess;
 import com.agileach.selenium3.OperateDB;
 import com.agileach.selenium3.TestcaseBase;
+import com.agileach.selenium3.page.BmiCalculatorPage;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;

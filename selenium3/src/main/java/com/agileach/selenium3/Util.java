@@ -4,7 +4,12 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.util.List;
+
 import javax.imageio.ImageIO;
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -14,6 +19,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -50,9 +58,15 @@ public class Util {
 	public static WebElement getElement(final By by) {
 		boolean isSucceed = false;		
 		WebElement element = null;
-		WebDriverWait wait = new WebDriverWait(driver, 10);
+		//WebDriverWait wait = new WebDriverWait(driver, 10);		
+		// Waiting 30 seconds for an element to be present on the page, checking
+		   // for its presence once every 2 seconds.
+		   Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+		       .withTimeout(Duration.ofSeconds(20000))
+		       .pollingEvery(Duration.ofSeconds(1000))
+		       .ignoring(NoSuchElementException.class);				
 		try {
-			    element = wait.until(new ExpectedCondition<WebElement>() {
+			element = wait.until(new ExpectedCondition<WebElement>() {
 				public WebElement apply(WebDriver d) {
 					WebElement e = d.findElement(by);
 					return e.isDisplayed() ? e : null; 
@@ -78,6 +92,47 @@ public class Util {
 		}
 	}	
 	
+	public static void accecpAlert() {
+		Alert alert = driver.switchTo().alert();	
+		alert.accept();
+	}
+	
+	public static WebElement getSelectedItem(By by) {
+		Select items = new Select(getElement(by));
+		WebElement webElement = items.getFirstSelectedOption();	
+		return webElement;
+	}
+	
+	public static List<WebElement> getSelectedItems(By by) {
+		Select items = new Select(getElement(by));
+		List<WebElement> webElements = items.getAllSelectedOptions();	
+		return webElements;
+	}
+	
+	public static void selectItem(By by, int index) {
+		Select items = new Select(getElement(by));
+		int size = items.getOptions().size();
+		if(index >= 0 && index < size) {
+			items.selectByIndex(index);
+		}
+	}
+	public static void selectItem(By by, String visibleTextOrValue) {
+		Select items = new Select(getElement(by));
+		List<WebElement> list  = items.getOptions();
+		for(WebElement element : list) {
+			if(element.getText().equals(visibleTextOrValue)) {
+				items.selectByVisibleText(visibleTextOrValue);
+				return;
+			}
+		}
+		for(WebElement element : list) {
+			if(element.getAttribute("value").equals(visibleTextOrValue)) {
+				items.selectByValue(visibleTextOrValue);
+				return;
+			}
+		}
+	}
+	
 	public static void selectDefaultFrame() {
 		driver.switchTo().defaultContent();
 	}
@@ -86,8 +141,7 @@ public class Util {
 		boolean isSucceed = false;
 		long timeBegins = System.currentTimeMillis();
 		do {
-			try {
-				selectDefaultFrame();
+			try {				
 				driver.switchTo().frame(nameOrId);
 				logger.info("select frame by name or Id [" + nameOrId + "] success!");
 				isSucceed = true;
@@ -106,8 +160,7 @@ public class Util {
 		boolean isSucceed = false;
 		long timeBegins = System.currentTimeMillis();
 		do {
-			try {
-				selectDefaultFrame();
+			try {				
 				driver.switchTo().frame(index);
 				logger.info("select frame by index [" + index + "] success!");
 				isSucceed = true;
@@ -126,8 +179,7 @@ public class Util {
 		boolean isSucceed = false;
 		long timeBegins = System.currentTimeMillis();
 		do {
-			try {
-				selectDefaultFrame();			
+			try {			
 				driver.switchTo().frame(webElement);
 				logger.info("select frame by frameitself [" + webElement.toString() + "] success!");
 				isSucceed = true;
@@ -310,8 +362,7 @@ public class Util {
 		try {
 			File screenShotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);	
 			File file = new File(capturePath);
-			if  (!file.exists()  && !file.isDirectory())      
-			{       			  
+			if  (!file.exists()  && !file.isDirectory()) {       			  
 			    file.mkdir();    
 			} 
 			FileUtils.copyFile(screenShotFile, new File(capturePath + fileName));
