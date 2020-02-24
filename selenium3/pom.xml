@@ -72,4 +72,34 @@
 		</dependency>
 		<!-- log4j end -->
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M4</version><!-- 2.7.1 -->
+				<configuration>
+					<!--为了解决在jenkins maven执行test 报告乱码问题，编码格式设置为UTF-8 -->
+					<argLine>-Dfile.encoding=UTF-8</argLine>
+					<encoding>UTF-8</encoding>
+					<!--<testFailureIgnore>true</testFailureIgnore> -->
+					<suiteXmlFiles>
+						<!--此处testng.xml即为要运行的testng.xml文件 -->
+						<suiteXmlFile>testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
 </project>
